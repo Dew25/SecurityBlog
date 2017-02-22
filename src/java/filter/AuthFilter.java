@@ -17,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -45,7 +44,6 @@ private final List<String> pathFilters = Arrays.asList(new String[]{"admin"});
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        String contextPath = ((HttpServletRequest) request).getContextPath();
         String uri = ((HttpServletRequest) request).getRequestURI();
 
         int indexLastSlash = uri.lastIndexOf('/');

@@ -37,9 +37,17 @@ public class AdminController extends HttpServlet {
         String userPath=request.getServletPath();
         if("/admin".equals(userPath)){
             HttpSession session = request.getSession(false);
-            RegUser regUser=(RegUser) session.getAttribute("regUser");
-            request.setAttribute("username", regUser.getUsername());
-            request.getServletContext().getRequestDispatcher("/WEB-INF/admin"+userPath+".jsp").forward(request, response);
+            if(session == null){
+                response.sendRedirect("/SecurityBlog/authForm/login.jsp");
+            }else{
+                RegUser regUser=(RegUser) session.getAttribute("regUser");
+                if(regUser != null){
+                    request.setAttribute("username", regUser.getUsername());
+                    request.getServletContext().getRequestDispatcher("/WEB-INF/admin"+userPath+".jsp").forward(request, response);
+                }else{
+                    response.sendRedirect("/SecurityBlog/authForm/login.jsp");
+                }
+            }
         }
     }
 

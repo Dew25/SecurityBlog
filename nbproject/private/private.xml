@@ -11,6 +11,7 @@
             <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/authForm/login.jsp</file>
             <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/LoginController.java</file>
             <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/LogoutController.java</file>
+            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/authForm/loginError.jsp</file>
         </group>
     </open-files>
 </project-private>
