@@ -6,6 +6,7 @@
 package session;
 
 import entyty.RegUser;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,14 +30,15 @@ public class RegUserFacade extends AbstractFacade<RegUser> {
     public RegUserFacade() {
         super(RegUser.class);
     }
-    public RegUser findRegUserByName(String username){
-        Query query = getEntityManager().createQuery("SELECT ru FROM RegUser ru WHERE ru.username=:username")
-                .setParameter("username", username);
+    public RegUser findRegUserByName(String login){
+        Query query = getEntityManager().createQuery("SELECT ru FROM RegUser ru WHERE ru.login=:login")
+                .setParameter("login", login);
         try {
            return (RegUser) query.getSingleResult();
         } catch (Exception e) {
            return null;
         }
     }
+    
     
 }

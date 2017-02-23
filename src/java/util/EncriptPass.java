@@ -7,6 +7,7 @@ package util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 /**
  *
@@ -28,8 +29,11 @@ public class EncriptPass {
     public EncriptPass(String password) throws NoSuchAlgorithmException {
         setEncriptPassword(password,"0");
     }
+
+    public EncriptPass() {
+    }
     
-    private void setEncriptPassword(String password, String salts) throws NoSuchAlgorithmException {
+    public void setEncriptPassword(String password, String salts) throws NoSuchAlgorithmException {
         MessageDigest m = MessageDigest.getInstance("SHA-256");
         m.update(password.getBytes(),0,password.length());
         this.encriptPassword = new BigInteger(1,m.digest()).toString(16);
@@ -41,6 +45,15 @@ public class EncriptPass {
      */
     public String getEncriptPassword(){
         return this.encriptPassword;
+    }
+    
+    public String getSalts() throws NoSuchAlgorithmException{
+        Date time = new Date(132323L);
+        
+        String s = Long.toString(time.getTime());
+        MessageDigest m = MessageDigest.getInstance("MD5");
+        m.update(s.getBytes(),0,s.length());
+        return  new BigInteger(1,m.digest()).toString(16);
     }
     
 }

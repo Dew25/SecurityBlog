@@ -16,6 +16,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,9 +24,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author jvm
  */
+@WebFilter(filterName = "authFilter", urlPatterns = {""})
 public class AuthFilter implements Filter {
     
-private final List<String> pathFilters = Arrays.asList(new String[]{"admin"});
+private final List<String> pathFilters = Arrays.asList(new String[]{"/admin"});
     
     public AuthFilter() {
     }    
@@ -44,30 +46,32 @@ private final List<String> pathFilters = Arrays.asList(new String[]{"admin"});
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        String uri = ((HttpServletRequest) request).getRequestURI();
+        String path = ((HttpServletRequest) request).getServletPath();
+        
+//        String uri = ((HttpServletRequest) request).getRequestURI();
 
-        int indexLastSlash = uri.lastIndexOf('/');
-        int indexQuest = uri.indexOf('?');
-        String path="";
-        if(indexQuest==-1){
-            path = uri.substring(indexLastSlash, uri.length()).substring(1);
-        }else{
-            path = uri.substring(indexLastSlash, indexQuest).substring(1);
-        }
-        HttpSession session = ((HttpServletRequest) request).getSession(false);
-        if(session != null){
-            chain.doFilter(request, response);
-            return;
-        }else{
-            if(!pathFilters.contains(path)){
+//        int indexLastSlash = uri.lastIndexOf('/');
+//        int indexQuest = uri.indexOf('?');
+//        String path="";
+//        if(indexQuest==-1){
+//            path = uri.substring(indexLastSlash, uri.length()).substring(1);
+//        }else{
+//            path = uri.substring(indexLastSlash, indexQuest).substring(1);
+//        }
+//        HttpSession session = ((HttpServletRequest) request).getSession(false);
+//        if(session == null){
+//            chain.doFilter(request, response);
+//            return;
+//        }else{
+//            if(!pathFilters.contains(path)){
                 chain.doFilter(request, response);
                 return;
-            }
-        }
-        
-        ((HttpServletRequest) request).setAttribute("path", path);
-        ((HttpServletRequest) request).getServletContext().getRequestDispatcher("/authForm/login.jsp")
-                .forward(request, response);
+//            }
+//        }
+//        
+//        ((HttpServletRequest) request).setAttribute("path", path);
+//        ((HttpServletRequest) request).getServletContext().getRequestDispatcher("/authForm/login.jsp")
+//                .forward(request, response);
     }
 
     @Override

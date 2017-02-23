@@ -8,12 +8,16 @@ package controller;
 import entyty.RegUser;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import session.AuthBean;
+import session.RegUserFacade;
 
 /**
  *
@@ -21,7 +25,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AdminController", urlPatterns = {"/admin"})
 public class AdminController extends HttpServlet {
-
+    @EJB AuthBean authBean;
+    @EJB RegUserFacade regUserFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,20 +40,23 @@ public class AdminController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String userPath=request.getServletPath();
-        if("/admin".equals(userPath)){
-            HttpSession session = request.getSession(false);
-            if(session == null){
-                response.sendRedirect("/SecurityBlog/authForm/login.jsp");
-            }else{
-                RegUser regUser=(RegUser) session.getAttribute("regUser");
-                if(regUser != null){
-                    request.setAttribute("username", regUser.getUsername());
-                    request.getServletContext().getRequestDispatcher("/WEB-INF/admin"+userPath+".jsp").forward(request, response);
-                }else{
-                    response.sendRedirect("/SecurityBlog/authForm/login.jsp");
+        RegUser regUser = authBean.getSessionUser(request);          
+            if( regUser != null && "ADMIN".equals(regUser.getRoles())){
+                if("/admin".equals(userPath)){
+                    String username =regUser.getName()+" "+regUser.getSurname();
+                    request.setAttribute("username", username);
+                    List<RegUser>users =regUserFacade.findAll();
+                    request.setAttribute("users", users);
+                    request.getServletContext().getRequestDispatcher("/WEB-INF/admin/admin.jsp").forward(request, response);
                 }
+            }else{
+                request.setAttribute("path", "admin");
+                if(regUser != null){
+                    request.setAttribute("info", "У Вас, "+regUser.getLogin()+", нет права зайти на этот ресурс");
+                }
+                request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
             }
-        }
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

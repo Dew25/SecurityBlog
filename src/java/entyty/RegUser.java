@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 
-public class RegUser implements Serializable {
+public class RegUser extends Person{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,7 +28,7 @@ public class RegUser implements Serializable {
     private Long id;
     @Size(max = 50)
     @Column(length = 50,unique = true,nullable = false)
-    private String username;
+    private String login;
     @Size(min = 5)
     @Column(length = 100, nullable = false)
     private String password;
@@ -37,38 +37,41 @@ public class RegUser implements Serializable {
 
     public RegUser() {
     }
+    
 
-    public RegUser(String username, String password, String salts, String roles) {
-        this.username = username;
+    public RegUser(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+
+    public RegUser(String login, String password, String salts, String roles, String name, String surname, String phone, String email) {
+        super(name, surname, phone, email);
+        this.login = login;
         this.password = password;
         this.salts = salts;
         this.roles = roles;
     }
 
-    public RegUser(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.roles = "GUEST";
-        this.salts = "";
-    }
-
     
-    
-
+  
+    @Override
     public Long getId() {
         return id;
     }
 
+  
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -99,7 +102,7 @@ public class RegUser implements Serializable {
     public int hashCode() {
         int hash = 5;
         hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.username);
+        hash = 19 * hash + Objects.hashCode(this.login);
         hash = 19 * hash + Objects.hashCode(this.password);
         hash = 19 * hash + Objects.hashCode(this.salts);
         hash = 19 * hash + Objects.hashCode(this.roles);
@@ -108,6 +111,9 @@ public class RegUser implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
+        if(!super.equals(obj)){
+            return false;
+        }
         if (this == obj) {
             return true;
         }
@@ -118,18 +124,13 @@ public class RegUser implements Serializable {
             return false;
         }
         final RegUser other = (RegUser) obj;
-        if (!Objects.equals(this.username, other.username)) {
+        if (!Objects.equals(this.login, other.login)) {
             return false;
         }
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
-        if (!Objects.equals(this.salts, other.salts)) {
-            return false;
-        }
-        if (!Objects.equals(this.roles, other.roles)) {
-            return false;
-        }
+
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -138,7 +139,7 @@ public class RegUser implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", password=" + password + ", salts=" + salts + ", roles=" + roles + '}';
+        return "User{" + "id=" + id + ", login=" + login + ", password=" + password + ", salts=" + salts + ", roles=" + roles + '}';
     }
 
 }
