@@ -15,6 +15,7 @@
     <body>
         <h1>Привет, ${username}, Вы зашли на защищенный ресурс!</h1>
         <a href="logout">logout</a>
+        
 <!--        <p>Вы можете назначить роль пользователю</p>
         <form action="setRole" method="POST">
             <select name="select_user">
