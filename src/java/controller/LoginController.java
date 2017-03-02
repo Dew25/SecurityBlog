@@ -20,13 +20,12 @@ import javax.servlet.http.HttpSession;
 import session.AuthBean;
 import session.RegUserFacade;
 
-import util.EncriptPass;
 
 /**
  *
  * @author jvm
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login", "/registration","/newuser"})
+@WebServlet(name = "LoginController", urlPatterns = {"/login", "/addNewUser","/newuser"})
 public class LoginController extends HttpServlet {
 
     @EJB RegUserFacade regUserFacade;
@@ -52,14 +51,13 @@ public class LoginController extends HttpServlet {
                 HttpSession session=request.getSession(true);
                 session.setAttribute("regUser", regUser);
                 response.sendRedirect(path);
-                
+                return;
             }else{
                 request.setAttribute("info", "Неправильный логин или пароль!<br><a href=\"newuser\">зарегистрироваться</a>");
                 request.setAttribute("path", path);
                 request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
             }
-            
-        }else if("/registration".equals(request.getServletPath())){
+        }else if("/addNewUser".equals(request.getServletPath())){
             String name =request.getParameter("name");
             String surname =request.getParameter("surname");
             String phone =request.getParameter("phone");
@@ -67,41 +65,12 @@ public class LoginController extends HttpServlet {
             String login =request.getParameter("login");
             String password=request.getParameter("password");
             try {
-                authBean.setRegistration(login, password, name, surname, phone, email);
+                authBean.addNewUser(login, password, name, surname, phone, email);
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("index.html");
         }
-            
-
-//            RegUser regUser = regUserFacade.findRegUserByName(username);
-//            if(regUser == null){
-//                   response.sendRedirect("/SecurityBlog/authForm/login.jsp");
-//            }else{
-//                String securePassword="";
-//                try {
-//                    EncriptPass encriptPass = new EncriptPass(password, regUser.getSalts());
-//                    securePassword = encriptPass.getEncriptPassword();
-//                } catch (NoSuchAlgorithmException ex) {
-//                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-//                    response.sendRedirect("/SecurityBlog/errorPage.jsp");
-//                }
-//                if(!securePassword.equals(regUser.getPassword())){
-//                    response.sendRedirect("/SecurityBlog/authForm/loginError.jsp");
-//                }else{
-//                    HttpSession session = request.getSession(true);
-//                    session.setAttribute("regUser", regUser);
-//                    response.sendRedirect(path);
-//                }
-//            }
-//        
-//        }else if("/errorPage".equals(request.getServletPath())){
-//            response.sendRedirect("/SecurityBlog/errorPage.jsp");
-//        }else if("/errorLogin".equals(request.getServletPath())){
-//            response.sendRedirect("/SecurityBlog/authForm/loginError.jsp");
-//        }
-//        
     } 
    
 

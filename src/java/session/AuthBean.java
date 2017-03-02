@@ -5,8 +5,11 @@
  */
 package session;
 
+import entyty.Group;
 import entyty.RegUser;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
@@ -64,21 +67,39 @@ public class AuthBean {
     }
     
     
-    public RegUser setRegistration(String login, String password, String name, String surname, String phone, String email) throws NoSuchAlgorithmException {
+    public RegUser addNewUser(String login, String password, String name, String surname, String phone, String email) throws NoSuchAlgorithmException {
        
         EncriptPass encriptPass = new EncriptPass();
         String salts = encriptPass.getSalts();
         encriptPass.setEncriptPassword(password,salts);
         password = encriptPass.getEncriptPassword();
-        RegUser newUser = new RegUser(login,password,salts,"GUEST",name,surname,phone,email);
+        Group groupGuests = new Group("GUESTS");
+        List<Group> groups = new ArrayList<>();
+       // groups.add(groupGuests);
+        RegUser newUser = new RegUser(login,password,salts,groups,name,surname,phone,email);
         try {
-            regUserFacade.create(newUser);
+            if(regUserFacade.findRegUserByName(login)==null){
+                regUserFacade.create(newUser);
+                
+                newUser=regUserFacade.findRegUserByName(newUser.getLogin());
+                newUser.getGroups().add(groupGuests);
+                regUserFacade.edit(newUser);
+            }
             return regUserFacade.findRegUserByName(login);
         } catch (Exception e) {
             System.out.println("Not create newUser: "+newUser.toString());
             return null;
         }
         
+    }
+    public Boolean accessOn(RegUser regUser, String groupName){
+        for (int i = 0; i < regUser.getGroups().size(); i++) {
+            Group group = regUser.getGroups().get(i);
+            if(groupName.equals(group.getGroupName())){
+                return true;
+            }
+        }
+        return false;
     }
     
 }

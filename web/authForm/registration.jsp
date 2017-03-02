@@ -12,7 +12,7 @@
         <title>Регистрация</title>
     </head>
     <body>
-        <form action="registration" method="POST">
+        <form action="addNewUser" method="POST">
             <h1>Введите все данные</h1>
             <p>Имя: <input type="text" name="name" placeholder="Имя"></p>
             <p>Фамилия: <input type="text" name="surname" placeholder="Фамилия"></p>

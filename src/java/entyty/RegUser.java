@@ -5,13 +5,16 @@
  */
 package entyty;
 
-import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,7 +36,11 @@ public class RegUser extends Person{
     @Column(length = 100, nullable = false)
     private String password;
     private String salts;
-    private String roles;
+    
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "group_fk")
+    private List<Group> groups;
+    
 
     public RegUser() {
     }
@@ -44,24 +51,18 @@ public class RegUser extends Person{
         this.password = password;
     }
 
-
-    public RegUser(String login, String password, String salts, String roles, String name, String surname, String phone, String email) {
+    public RegUser(String login, String password, String salts, List<Group> groups, String name, String surname, String phone, String email) {
         super(name, surname, phone, email);
         this.login = login;
         this.password = password;
         this.salts = salts;
-        this.roles = roles;
+        this.groups = groups;
     }
 
-    
-  
-    @Override
     public Long getId() {
         return id;
     }
 
-  
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -90,30 +91,27 @@ public class RegUser extends Person{
         this.salts = salts;
     }
 
-    public String getRoles() {
-        return roles;
+    public List<Group> getGroups() {
+        return groups;
     }
 
-    public void setRoles(String roles) {
-        this.roles = roles;
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 19 * hash + Objects.hashCode(this.id);
-        hash = 19 * hash + Objects.hashCode(this.login);
-        hash = 19 * hash + Objects.hashCode(this.password);
-        hash = 19 * hash + Objects.hashCode(this.salts);
-        hash = 19 * hash + Objects.hashCode(this.roles);
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.login);
+        hash = 31 * hash + Objects.hashCode(this.password);
+        hash = 31 * hash + Objects.hashCode(this.salts);
+        hash = 31 * hash + Objects.hashCode(this.groups);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(!super.equals(obj)){
-            return false;
-        }
         if (this == obj) {
             return true;
         }
@@ -130,8 +128,13 @@ public class RegUser extends Person{
         if (!Objects.equals(this.password, other.password)) {
             return false;
         }
-
+        if (!Objects.equals(this.salts, other.salts)) {
+            return false;
+        }
         if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.groups, other.groups)) {
             return false;
         }
         return true;
@@ -139,7 +142,16 @@ public class RegUser extends Person{
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", login=" + login + ", password=" + password + ", salts=" + salts + ", roles=" + roles + '}';
+        StringBuilder strGroups = new StringBuilder();
+        for (int i = 0; i < groups.size(); i++) {
+            Group group = groups.get(i);
+            strGroups.append(group.toString());
+            
+        }
+        return "RegUser{" + "id=" + id + ", login=" + login + ", password=" + password + ", salts=" + salts + ", groups=" + strGroups.toString() + '}';
     }
+
+
+
 
 }
