@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/session/GroupFacade.java</file>
             <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/AdminController.java</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/authForm/registration.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/entyty/Person.java</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/session/AbstractFacade.java</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/entyty/RegUser.java</file>
+            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/index.jsp</file>
+            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/WEB-INF/user/user.jsp</file>
             <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/WEB-INF/admin/admin.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/entyty/Group.java</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/session/AuthBean.java</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/LoginController.java</file>
+            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/UserController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -14,7 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Size;
 
 /**
@@ -37,7 +37,7 @@ public class RegUser extends Person{
     private String password;
     private String salts;
     
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "group_fk")
     private List<Group> groups;
     

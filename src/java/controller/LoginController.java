@@ -25,7 +25,7 @@ import session.RegUserFacade;
  *
  * @author jvm
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login", "/addNewUser","/newuser"})
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
     @EJB RegUserFacade regUserFacade;
@@ -57,19 +57,6 @@ public class LoginController extends HttpServlet {
                 request.setAttribute("path", path);
                 request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
             }
-        }else if("/addNewUser".equals(request.getServletPath())){
-            String name =request.getParameter("name");
-            String surname =request.getParameter("surname");
-            String phone =request.getParameter("phone");
-            String email =request.getParameter("email");
-            String login =request.getParameter("login");
-            String password=request.getParameter("password");
-            try {
-                authBean.addNewUser(login, password, name, surname, phone, email);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            response.sendRedirect("index.html");
         }
     } 
    
@@ -86,8 +73,6 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if("/newuser".equals(request.getServletPath())){
-            request.getServletContext().getRequestDispatcher("/authForm/registration.jsp").forward(request, response);
-        }
+       
     }
 }

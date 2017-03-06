@@ -5,13 +5,12 @@
  */
 package controller;
 
+import entyty.Article;
 import entyty.RegUser;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.persistence.metamodel.SetAttribute;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,23 +20,15 @@ import javax.servlet.http.HttpSession;
 import session.ArticleFacade;
 import session.AuthBean;
 
+
 /**
  *
  * @author jvm
  */
-@WebServlet(name = "UserController",loadOnStartup = 1, urlPatterns = {"/user", "/addNewUser","/newuser"})
-public class UserController extends HttpServlet {
+@WebServlet(name = "ArticleController", urlPatterns = {"/newarticle","/addarticle","/deletearticle"})
+public class ArticleController extends HttpServlet {
 @EJB AuthBean authBean;
 @EJB ArticleFacade articleFacade;
-
-    @Override
-    public void init() throws ServletException {
-      getServletContext().setAttribute("articles", articleFacade.findAll());
-       
-       
-       
-    }
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,47 +41,42 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        if("/addNewUser".equals(request.getServletPath())){
-            String name =request.getParameter("name");
-            String surname =request.getParameter("surname");
-            String phone =request.getParameter("phone");
-            String email =request.getParameter("email");
-            String login =request.getParameter("login");
-            String password=request.getParameter("password");
-            try {
-                authBean.addNewUser(login, password, name, surname, phone, email);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            response.sendRedirect("index.jsp");
-            return;
-        }
+        request.setCharacterEncoding("UTF8");
+        String userPath=request.getServletPath();
         HttpSession session = request.getSession(false);
         if(session != null){
             RegUser regUser = (RegUser) session.getAttribute("regUser");
-            if(regUser != null){
-                String username =regUser.getName()+" "+regUser.getSurname();
-                request.setAttribute("username", username);
-                if(authBean.accessOn(regUser,"USERS") || authBean.accessOn(regUser,"ADMINS")){
-                    String article_id = (String) request.getParameter("article_id");
-                    if(article_id != null){
-                        request.setAttribute("article", articleFacade.find(new Long(article_id)));
-                    }
-                    request.getRequestDispatcher("/WEB-INF/user/user.jsp").forward(request, response);
-                    return;
+            String username =regUser.getName()+" "+regUser.getSurname();
+            request.setAttribute("username", username);
+            if(authBean.accessOn(regUser,"ADMINS")){
+               if("/addarticle".equals(userPath)){
+                    String title = request.getParameter("title");
+                    String article = request.getParameter("article");
+                    Date addArticleTime=new Date();
+                    Article newArticle = new Article(title, article, regUser, addArticleTime);
+                    try {
+                       articleFacade.create(newArticle);
+                       request.setAttribute("info", "Статья успешно добавлена.");
+                   } catch (Exception e) {
+                       request.setAttribute("info", "Статья не добавлена. Вероятно повтор заголовка статьи");
+                   }
+                    
+                }else if("/deletearticle".equals(userPath)){
+                    String id = request.getParameter("id");
+                    Article delArticle = articleFacade.find(new Long(id));
+                    articleFacade.remove(delArticle);
                 }
-                
-            }else{
-                String queryString = "?"+request.getQueryString();
-                request.setAttribute("path", "user"+queryString);
-                request.setAttribute("info", "У Вас, нет права зайти на этот ресурс");
-                request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
+                List<Article> articles = articleFacade.findAll();
+                request.setAttribute("articles", articles);
+                request.getServletContext().getRequestDispatcher("/WEB-INF/admin/newArticle.jsp").forward(request, response);
+                return;
             }
+            request.setAttribute("path", "newarticle");
+            request.setAttribute("info", "У Вас, "+regUser.getLogin()+", нет права зайти на этот ресурс");
+            request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
         }else{
-            //regUser == null)
-            String queryString = "?"+request.getQueryString();
-            request.setAttribute("path", "user"+queryString);
-            request.setAttribute("path", request.getRequestURI());
+            //session == null)
+            request.setAttribute("path", "newarticle");
             request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
             
         }
@@ -108,13 +94,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        if("/newuser".equals(request.getServletPath())){
-            request.getServletContext().getRequestDispatcher("/authForm/registration.jsp").forward(request, response);
-        }else{
-            processRequest(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -129,7 +109,6 @@ public class UserController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-         
     }
 
     /**

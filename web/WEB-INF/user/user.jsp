@@ -14,5 +14,20 @@
     <body>
         <h1>Привет, ${username}!</h1>
         <a href="logout">logout</a><br>
+        <table class="tab-article">
+        
+            <tr class="tr-article"><td class="td-article"></td>
+                <td class="td-article">${article.title}</td>
+            </tr>
+            <tr>
+                <td class="td-article">${article.addArticleTime}</td>
+                <td class="td-article">${article.author.login}</td>
+            </tr>
+            <tr>
+                <td class="td-article"></td>
+                <td class="td-article">${article.article}</a></td>
+            </tr>
+        
+        </table>
     </body>
 </html>

@@ -16,6 +16,7 @@
         <h1>Привет, ${username}, Вы зашли на защищенный ресурс!</h1>
         <a href="logout">logout</a><br>
         <a href="newuser">Новый пользователь</a>
+        <a href="newarticle">Новая статья</a>
         <p>Вы можете добавть новую роль</p>
         <form action="newGroup" method="POST">
             <input type="text" name="new_group" placeholder="Имя группы">
@@ -23,7 +24,8 @@
         </form>
         <p></p>
         <form action="listGroups" method="POST">
-            <input type="submit" value="Показать пользователей группы"><select name="selectedGroup">
+            <input type="submit" value="Показать пользователей группы">
+            <select name="selectedGroup">
                 <c:forEach var="gr" items="${groups}">
                     <option value="${gr.id}">${gr.groupName}</option>
                 </c:forEach>
