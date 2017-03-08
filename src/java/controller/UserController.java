@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.persistence.metamodel.SetAttribute;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,18 +24,12 @@ import session.AuthBean;
  *
  * @author jvm
  */
-@WebServlet(name = "UserController",loadOnStartup = 1, urlPatterns = {"/user", "/addNewUser","/newuser"})
+@WebServlet(name = "UserController", urlPatterns = {"/user", "/addNewUser","/newuser"})
 public class UserController extends HttpServlet {
 @EJB AuthBean authBean;
 @EJB ArticleFacade articleFacade;
 
-    @Override
-    public void init() throws ServletException {
-      getServletContext().setAttribute("articles", articleFacade.findAll());
-       
-       
-       
-    }
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -78,7 +71,13 @@ public class UserController extends HttpServlet {
                     }
                     request.getRequestDispatcher("/WEB-INF/user/user.jsp").forward(request, response);
                     return;
+                }else{
+                    String queryString = "?"+request.getQueryString();
+                    request.setAttribute("path", "user"+queryString);
+                    request.setAttribute("info", "У Вас, нет права зайти на этот ресурс");
+                    request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
                 }
+                
                 
             }else{
                 String queryString = "?"+request.getQueryString();
@@ -90,7 +89,6 @@ public class UserController extends HttpServlet {
             //regUser == null)
             String queryString = "?"+request.getQueryString();
             request.setAttribute("path", "user"+queryString);
-            request.setAttribute("path", request.getRequestURI());
             request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
             
         }

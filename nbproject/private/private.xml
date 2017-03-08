@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/AdminController.java</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/index.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/WEB-INF/user/user.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/web/WEB-INF/admin/admin.jsp</file>
-            <file>file:/home/jvm/NetBeansProjects/SecurityBlog/src/java/controller/UserController.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/controller/LoginController.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/controller/UserController.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/controller/GuestController.java</file>
         </group>
     </open-files>
 </project-private>
