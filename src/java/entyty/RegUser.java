@@ -33,8 +33,9 @@ public class RegUser extends Person{
     @Column(length = 50,unique = true,nullable = false)
     private String login;
     @Size(min = 5)
-    @Column(length = 100, nullable = false)
+    @Column(length = 64, nullable = false)
     private String password;
+    @Column(length = 32)
     private String salts;
     
     @ManyToMany(cascade = CascadeType.ALL)

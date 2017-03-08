@@ -32,8 +32,9 @@ public class EncriptPass {
 
     public EncriptPass() {
     }
-    
+
     public void setEncriptPassword(String password, String salts) throws NoSuchAlgorithmException {
+        password=salts+password;
         MessageDigest m = MessageDigest.getInstance("SHA-256");
         m.update(password.getBytes(),0,password.length());
         this.encriptPassword = new BigInteger(1,m.digest()).toString(16);
