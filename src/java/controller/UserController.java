@@ -5,9 +5,12 @@
  */
 package controller;
 
-import entyty.RegUser;
+import entyty.Article;
+import entyty.Comment;
+import entyty.User;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -19,15 +22,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.ArticleFacade;
 import session.AuthBean;
+import session.CommentFacade;
 
 /**
  *
  * @author jvm
  */
-@WebServlet(name = "UserController", urlPatterns = {"/user", "/addNewUser","/newuser"})
+@WebServlet(name = "UserController", urlPatterns = {"/user", "/addNewUser","/newuser","/addComment","/deleteComment"})
 public class UserController extends HttpServlet {
 @EJB AuthBean authBean;
 @EJB ArticleFacade articleFacade;
+@EJB CommentFacade commentFacade;
 
     
 
@@ -43,6 +48,8 @@ public class UserController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        
         if("/addNewUser".equals(request.getServletPath())){
             String name =request.getParameter("name");
             String surname =request.getParameter("surname");
@@ -60,15 +67,36 @@ public class UserController extends HttpServlet {
         }
         HttpSession session = request.getSession(false);
         if(session != null){
-            RegUser regUser = (RegUser) session.getAttribute("regUser");
+            User regUser = (User) session.getAttribute("regUser");
             if(regUser != null){
                 String username =regUser.getName()+" "+regUser.getSurname();
                 request.setAttribute("username", username);
                 if(authBean.accessOn(regUser,"USERS") || authBean.accessOn(regUser,"ADMINS")){
-                    String article_id = (String) request.getParameter("article_id");
-                    if(article_id != null){
-                        request.setAttribute("article", articleFacade.find(new Long(article_id)));
+                    if("/addComment".equals(request.getServletPath())){
+                        String commentTitle=(String) request.getParameter("comment_title");
+                        String commentText=(String) request.getParameter("comment_text");
+                        String article_id = (String) request.getParameter("article_id");
+                        Article article = articleFacade.find(new Long(article_id));
+                        Comment newComment = new Comment(regUser.getLogin(), commentTitle, commentText, new Date());
+                        article.getComments().add(newComment);
+                        articleFacade.edit(article);
                     }
+                    String articleId = (String) request.getParameter("article_id");
+                    if(articleId != null){
+                        request.setAttribute("article", articleFacade.find(new Long(articleId)));
+                        if(authBean.accessOn(regUser,"ADMINS")){
+                           if("/deleteComment".equals(request.getServletPath())){
+                               String commentId=request.getParameter("comment_id");
+                               Article article = articleFacade.find(new Long(articleId));
+                               Comment delComment = commentFacade.find(new Long(commentId));
+                               article.getComments().remove(delComment);
+                               articleFacade.edit(article);
+                               request.setAttribute("article",articleFacade.find(new Long(articleId)));
+                           }
+                           request.setAttribute("userGroup", "ADMINS"); 
+                        }
+                    }
+                    
                     request.getRequestDispatcher("/WEB-INF/user/user.jsp").forward(request, response);
                     return;
                 }else{
@@ -126,14 +154,16 @@ public class UserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         processRequest(request, response);
+        
          
     }
 
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a User containing servlet description
      */
     @Override
     public String getServletInfo() {

@@ -8,15 +8,11 @@ package entyty;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -25,69 +21,63 @@ import javax.persistence.TemporalType;
  * @author jvm
  */
 @Entity
-public class Article implements Serializable {
+public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String title;
-    private String article;
     private String userLogin;
+    private String title;
+    private String text;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Comment> comments;
+    
 
-    public Article() {
+    public Comment() {
     }
 
-    public Article(String title, String article, String userLogin, Date date) {
-        this.title = title;
-        this.article = article;
+    public Comment(String userLogin, String title, String text, Date commentDate) {
         this.userLogin = userLogin;
-        this.date = date;
+        this.title = title;
+        this.text = text;
+        this.date = commentDate;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getUserLogin() {
+        return userLogin;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getArticle() {
-        return article;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public void setArticle(String article) {
-        this.article = article;
-    }
-
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin=userLogin;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getDate() {
@@ -95,20 +85,14 @@ public class Article implements Serializable {
         return dateFormat.format(date);
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + Objects.hashCode(this.title);
-        hash = 67 * hash + Objects.hashCode(this.article);
-        hash = 67 * hash + Objects.hashCode(this.userLogin);
-        hash = 67 * hash + Objects.hashCode(this.date);
+        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 97 * hash + Objects.hashCode(this.userLogin);
+        hash = 97 * hash + Objects.hashCode(this.title);
+        hash = 97 * hash + Objects.hashCode(this.text);
+        hash = 97 * hash + Objects.hashCode(this.date);
         return hash;
     }
 
@@ -123,11 +107,11 @@ public class Article implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Article other = (Article) obj;
+        final Comment other = (Comment) obj;
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        if (!Objects.equals(this.article, other.article)) {
+        if (!Objects.equals(this.text, other.text)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {
@@ -144,10 +128,12 @@ public class Article implements Serializable {
 
     @Override
     public String toString() {
-        return "Article{" + "id=" + id + ", title=" + title + ", article=" + article + ", author=" + userLogin + ", addArticleTime=" + date.toString() + '}';
+        return "Comment{" + "id=" + id + ", author=" + userLogin + ", title=" + title + ", text=" + text + ", date=" + date + '}';
     }
 
+
+
   
-    
+      
     
 }

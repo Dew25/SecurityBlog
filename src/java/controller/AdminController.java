@@ -6,7 +6,7 @@
 package controller;
 
 import entyty.Group;
-import entyty.RegUser;
+import entyty.User;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import session.AuthBean;
 import session.GroupFacade;
-import session.RegUserFacade;
+import session.UserFacade;
 
 /**
  *
@@ -26,7 +26,7 @@ import session.RegUserFacade;
 @WebServlet(name = "AdminController", urlPatterns = {"/admin","/newGroup","/addToGroup","/listGroups"})
 public class AdminController extends HttpServlet {
     @EJB AuthBean authBean;
-    @EJB RegUserFacade regUserFacade;
+    @EJB UserFacade regUserFacade;
     @EJB GroupFacade groupFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,8 +40,9 @@ public class AdminController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String userPath=request.getServletPath();
-        RegUser regUser = authBean.getSessionUser(request);          
+        User regUser = authBean.getSessionUser(request);          
             if( regUser != null){
                 if(authBean.accessOn(regUser,"ADMINS")){
                     String username =regUser.getName()+" "+regUser.getSurname();
@@ -60,7 +61,7 @@ public class AdminController extends HttpServlet {
                     }else if("/addToGroup".equals(userPath)){
                         String selectUserId = request.getParameter("select_user");
                         String groupId = request.getParameter("group");
-                        RegUser selectUser = regUserFacade.find(new Long(selectUserId));
+                        User selectUser = regUserFacade.find(new Long(selectUserId));
                         Group group = groupFacade.find(new Long(groupId));
                         if(request.getParameter("add") != null){
                             try {
@@ -83,7 +84,7 @@ public class AdminController extends HttpServlet {
                     }else if("/listGroups".equals(userPath)){
                         String groupId = request.getParameter("selectedGroup");
                         try {
-                            List<RegUser> usersInGroup=groupFacade.getUsersInGroup(new Long(groupId));
+                            List<User> usersInGroup=groupFacade.getUsersInGroup(new Long(groupId));
                             request.setAttribute("usersInGroup", usersInGroup);
                         } catch (Exception e) {
                             request.setAttribute("users",regUserFacade.findAll());
@@ -142,7 +143,7 @@ public class AdminController extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a User containing servlet description
      */
     @Override
     public String getServletInfo() {

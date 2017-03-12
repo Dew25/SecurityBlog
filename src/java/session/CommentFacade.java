@@ -5,7 +5,7 @@
  */
 package session;
 
-import entyty.Message;
+import entyty.Comment;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author jvm
  */
 @Stateless
-public class MessageFacade extends AbstractFacade<Message> {
+public class CommentFacade extends AbstractFacade<Comment> {
 
     @PersistenceContext(unitName = "SecurityBlogPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class MessageFacade extends AbstractFacade<Message> {
         return em;
     }
 
-    public MessageFacade() {
-        super(Message.class);
+    public CommentFacade() {
+        super(Comment.class);
     }
     
 }

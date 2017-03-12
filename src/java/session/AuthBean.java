@@ -6,7 +6,7 @@
 package session;
 
 import entyty.Group;
-import entyty.RegUser;
+import entyty.User;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +23,19 @@ import util.EncriptPass;
 @Stateless
 public class AuthBean {
 
-    @EJB RegUserFacade regUserFacade;
-    private RegUser regUser;
+    @EJB UserFacade userFacade;
+    private User regUser;
 
     public AuthBean() {
 
     }
 
     
-    public  RegUser getSessionUser(HttpServletRequest request) {
+    public  User getSessionUser(HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
         if (session != null) {
-            return (RegUser) session.getAttribute("regUser");
+            return (User) session.getAttribute("regUser");
         }else{
             return null;
         }
@@ -45,12 +45,12 @@ public class AuthBean {
      * 
      * @param login
      * @param password
-     * @return RegUser or null
+     * @return User or null
      */
 
-    public RegUser getAuthorizationRegUser(String login, String password) {
+    public User getAuthorizationRegUser(String login, String password) {
         try {
-            RegUser loginUser = regUserFacade.findRegUserByName(login);
+            User loginUser = userFacade.findRegUserByName(login);
             EncriptPass encriptPass = new EncriptPass(password, loginUser.getSalts());
              
             if(encriptPass.getEncriptPassword().equals(loginUser.getPassword())){
@@ -67,32 +67,38 @@ public class AuthBean {
     }
     
     
-    public RegUser addNewUser(String login, String password, String name, String surname, String phone, String email) throws NoSuchAlgorithmException {
+    public User addNewUser(String login, String password, String name, String surname, String phone, String email) throws NoSuchAlgorithmException {
        
         EncriptPass encriptPass = new EncriptPass();
         String salts = encriptPass.getSalts();
         encriptPass.setEncriptPassword(password,salts);
         password = encriptPass.getEncriptPassword();
-        Group groupGuests = new Group("GUESTS");
+        Group groupGuests=null;
+        List<User> regUsers = userFacade.findAll();
+        if(regUsers.isEmpty()){
+            groupGuests = new Group("ADMINS");
+        }else{
+            groupGuests = new Group("USERS");
+        }
+        
         List<Group> groups = new ArrayList<>();
        // groups.add(groupGuests);
-        RegUser newUser = new RegUser(login,password,salts,groups,name,surname,phone,email);
+        User newUser = new User(login,password,salts,groups,name,surname,phone,email);
         try {
-            if(regUserFacade.findRegUserByName(login)==null){
-                regUserFacade.create(newUser);
-                
-                newUser=regUserFacade.findRegUserByName(newUser.getLogin());
+            if(userFacade.findRegUserByName(login)==null){
+                userFacade.create(newUser);
+                newUser=userFacade.findRegUserByName(newUser.getLogin());
                 newUser.getGroups().add(groupGuests);
-                regUserFacade.edit(newUser);
+                userFacade.edit(newUser);
             }
-            return regUserFacade.findRegUserByName(login);
+            return userFacade.findRegUserByName(login);
         } catch (Exception e) {
             System.out.println("Not create newUser: "+newUser.toString());
             return null;
         }
         
     }
-    public Boolean accessOn(RegUser regUser, String groupName){
+    public Boolean accessOn(User regUser, String groupName){
         for (int i = 0; i < regUser.getGroups().size(); i++) {
             Group group = regUser.getGroups().get(i);
             if(groupName.equals(group.getGroupName())){

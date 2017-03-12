@@ -6,14 +6,13 @@
 package session;
 
 import entyty.Group;
-import entyty.RegUser;
+import entyty.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
@@ -22,7 +21,7 @@ import javax.persistence.Query;
 @Stateless
 public class GroupFacade extends AbstractFacade<Group> {
 
-    @EJB RegUserFacade regUserFacade;
+    @EJB UserFacade regUserFacade;
 
     @PersistenceContext(unitName = "SecurityBlogPU")
     private EntityManager em;
@@ -35,12 +34,12 @@ public class GroupFacade extends AbstractFacade<Group> {
     public GroupFacade() {
         super(Group.class);
     }
-    public List<RegUser> getUsersInGroup(Long groupId){
+    public List<User> getUsersInGroup(Long groupId){
         Group groupById = this.find(groupId);
-        List<RegUser> allUsers=regUserFacade.findAll();
-        List<RegUser> usersInGroup = new ArrayList<>();
+        List<User> allUsers=regUserFacade.findAll();
+        List<User> usersInGroup = new ArrayList<>();
         for (int i = 0; i < allUsers.size(); i++) {
-            RegUser user = allUsers.get(i);
+            User user = allUsers.get(i);
             if(user.getGroups().contains(groupById)){
                 usersInGroup.add(user);
             }

@@ -5,7 +5,7 @@
  */
 package controller;
 
-import entyty.RegUser;
+import entyty.User;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.AuthBean;
-import session.RegUserFacade;
+import session.UserFacade;
 
 
 /**
@@ -25,7 +25,7 @@ import session.RegUserFacade;
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
-    @EJB RegUserFacade regUserFacade;
+    @EJB UserFacade regUserFacade;
     @EJB AuthBean authBean;
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -38,12 +38,14 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String userPath=request.getServletPath();
+        
         if("/login".equals(request.getServletPath())){
             String login=request.getParameter("login");
             String password=request.getParameter("password");
             String path = request.getParameter("path");
-            RegUser regUser = authBean.getAuthorizationRegUser(login, password);
+            User regUser = authBean.getAuthorizationRegUser(login, password);
             if(regUser != null){
                 HttpSession session=request.getSession(true);
                 session.setAttribute("regUser", regUser);
@@ -61,7 +63,7 @@ public class LoginController extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a User containing servlet description
      */
     @Override
     public String getServletInfo() {

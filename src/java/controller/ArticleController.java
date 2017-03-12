@@ -6,7 +6,7 @@
 package controller;
 
 import entyty.Article;
-import entyty.RegUser;
+import entyty.User;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -41,19 +41,20 @@ public class ArticleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF8");
         String userPath=request.getServletPath();
         HttpSession session = request.getSession(false);
         if(session != null){
-            RegUser regUser = (RegUser) session.getAttribute("regUser");
+            User regUser = (User) session.getAttribute("regUser");
             String username =regUser.getName()+" "+regUser.getSurname();
             request.setAttribute("username", username);
             if(authBean.accessOn(regUser,"ADMINS")){
                if("/addarticle".equals(userPath)){
                     String title = request.getParameter("title");
                     String article = request.getParameter("article");
-                    Date addArticleTime=new Date();
-                    Article newArticle = new Article(title, article, regUser, addArticleTime);
+                    Date date=new Date();
+                    Article newArticle = new Article(title, article, regUser.getLogin(), date);
                     try {
                        articleFacade.create(newArticle);
                        request.setAttribute("info", "Статья успешно добавлена.");
@@ -114,7 +115,7 @@ public class ArticleController extends HttpServlet {
     /**
      * Returns a short description of the servlet.
      *
-     * @return a String containing servlet description
+     * @return a User containing servlet description
      */
     @Override
     public String getServletInfo() {

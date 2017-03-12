@@ -34,10 +34,11 @@ public class GuestController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         String userPath=request.getServletPath();
        if("/".equals(userPath)){
            getServletContext().setAttribute("articles", articleFacade.findAll());  
-           request.getRequestDispatcher("/index.jsp").forward(request, response);
+           response.sendRedirect("index.jsp");
        }
     }
 

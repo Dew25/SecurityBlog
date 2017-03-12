@@ -22,8 +22,7 @@ import javax.validation.constraints.Size;
  * @author jvm
  */
 @Entity
-
-public class RegUser extends Person{
+public class User extends Person{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,16 +42,16 @@ public class RegUser extends Person{
     private List<Group> groups;
     
 
-    public RegUser() {
+    public User() {
     }
     
 
-    public RegUser(String login, String password) {
+    public User(String login, String password) {
         this.login = login;
         this.password = password;
     }
 
-    public RegUser(String login, String password, String salts, List<Group> groups, String name, String surname, String phone, String email) {
+    public User(String login, String password, String salts, List<Group> groups, String name, String surname, String phone, String email) {
         super(name, surname, phone, email);
         this.login = login;
         this.password = password;
@@ -122,7 +121,7 @@ public class RegUser extends Person{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RegUser other = (RegUser) obj;
+        final User other = (User) obj;
         if (!Objects.equals(this.login, other.login)) {
             return false;
         }
