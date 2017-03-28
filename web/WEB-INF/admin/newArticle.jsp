@@ -14,8 +14,10 @@
     </head>
     <body>
         <h1>Привет, ${username}!</h1>
-        Добавить новую статью
-        <br>${info}
+        Добавить новую статью<br>
+        <a href="uploadPage" name="upload_file">Загрузить файл</a>
+        
+        <p>${info}</p>
         <br>
         <form action="addarticle" method="POST">
         <input type="text" name="title" placeholder="Заголовок статьи">

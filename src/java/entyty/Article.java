@@ -37,7 +37,7 @@ public class Article implements Serializable {
     private String userLogin;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade ={CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},orphanRemoval = true)
     private List<Comment> comments;
 
     public Article() {

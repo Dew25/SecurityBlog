@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.Size;
 
 /**
@@ -22,6 +24,9 @@ import javax.validation.constraints.Size;
  * @author jvm
  */
 @Entity
+@NamedQueries(
+        @NamedQuery(name = "User.findUserByLogin",query="SELECT u FROM User u WHERE u.login=:login")
+)
 public class User extends Person{
 
     private static final long serialVersionUID = 1L;
@@ -37,7 +42,7 @@ public class User extends Person{
     @Column(length = 32)
     private String salts;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REMOVE, CascadeType.PERSIST})
     @JoinColumn(name = "group_fk")
     private List<Group> groups;
     

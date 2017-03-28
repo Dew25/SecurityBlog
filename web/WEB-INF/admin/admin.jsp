@@ -17,17 +17,26 @@
         <a href="logout">logout</a><br>
         <a href="newuser">Новый пользователь</a>
         <a href="newarticle">Новая статья</a>
-        <p>Вы можете добавть новую роль</p>
+        <p>Вы можете добавть/удалить группу (при добавлении придеживайтесь следующего соглашения:  <br>
+             ИМЯ ГРУППЫ ПРОПИСНЫМИ БУКВАМИ ВО МНОЖЕСТВЕННОМ ЧИСЛЕ</p>
         <form action="newGroup" method="POST">
             <input type="text" name="new_group" placeholder="Имя группы">
             <input type="submit" value="Добавить группу">
         </form>
+        <form action="deleteGroup" method="POST">
+            <select name="deleteGroup">
+                <c:forEach var="group" items="${groups}">
+                    <option value="${group.id}">${group.groupName}</option>
+                </c:forEach>
+            </select>
+            <input type="submit" value="Удалить группу">
+        </form>   
         <p></p>
         <form action="listGroups" method="POST">
             <input type="submit" value="Показать пользователей группы">
             <select name="selectedGroup">
-                <c:forEach var="gr" items="${groups}">
-                    <option value="${gr.id}">${gr.groupName}</option>
+                <c:forEach var="group" items="${groups}">
+                    <option value="${group.id}">${group.groupName}</option>
                 </c:forEach>
             </select>
         </form>

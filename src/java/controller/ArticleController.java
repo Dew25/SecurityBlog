@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.ArticleFacade;
-import session.AuthBean;
+import security.AuthBean;
 
 
 /**
  *
  * @author jvm
  */
-@WebServlet(name = "ArticleController", urlPatterns = {"/newarticle","/addarticle","/deletearticle"})
+@WebServlet(name = "ArticleController", urlPatterns = {"/newarticle","/addarticle","/deletearticle","/uploadPage"})
 public class ArticleController extends HttpServlet {
 @EJB AuthBean authBean;
 @EJB ArticleFacade articleFacade;
@@ -66,6 +66,9 @@ public class ArticleController extends HttpServlet {
                     String id = request.getParameter("id");
                     Article delArticle = articleFacade.find(new Long(id));
                     articleFacade.remove(delArticle);
+                }else if ("/uploadPage".equals(userPath)){
+                    request.getRequestDispatcher("/WEB-INF/admin/uploadFile.jsp").forward(request, response);
+                    return;
                 }
                 List<Article> articles = articleFacade.findAll();
                 request.setAttribute("articles", articles);

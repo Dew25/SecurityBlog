@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package session;
+package security;
 
 import entyty.Group;
 import entyty.User;
@@ -14,6 +14,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import session.GroupFacade;
+import session.UserFacade;
 import util.EncriptPass;
 
 /**
@@ -24,6 +26,8 @@ import util.EncriptPass;
 public class AuthBean {
 
     @EJB UserFacade userFacade;
+    @EJB GroupFacade groupFacade;
+    
     private User regUser;
 
     public AuthBean() {
@@ -73,17 +77,35 @@ public class AuthBean {
         String salts = encriptPass.getSalts();
         encriptPass.setEncriptPassword(password,salts);
         password = encriptPass.getEncriptPassword();
+        List<Group> groups = new ArrayList<>();
         Group groupGuests=null;
         List<User> regUsers = userFacade.findAll();
         if(regUsers.isEmpty()){
             groupGuests = new Group("ADMINS");
         }else{
-            groupGuests = new Group("USERS");
+            try {
+                Boolean existsGroup=false;
+                groups = groupFacade.findAll();
+                for (int i = 0; i < groups.size(); i++) {
+                    Group group = groups.get(i);
+                    if("USERS".equals(group.getGroupName())){
+                        existsGroup=true;
+                        groupGuests=group;
+                    }
+                }
+                if(!existsGroup){
+                    groupGuests = new Group("USERS");
+                }
+            } catch (Exception e) {
+                groupGuests = new Group("USERS");
+                System.out.println("Создается новая группа: " + groupGuests.getGroupName());
+            }
+            
         }
         
-        List<Group> groups = new ArrayList<>();
+       List<Group> emptyGroups = new ArrayList<>();
        // groups.add(groupGuests);
-        User newUser = new User(login,password,salts,groups,name,surname,phone,email);
+        User newUser = new User(login,password,salts,emptyGroups,name,surname,phone,email);
         try {
             if(userFacade.findRegUserByName(login)==null){
                 userFacade.create(newUser);

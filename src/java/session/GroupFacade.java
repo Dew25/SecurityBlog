@@ -46,5 +46,25 @@ public class GroupFacade extends AbstractFacade<Group> {
         }
         return usersInGroup;
     }
+
+    public Group getGroupGUESTS() {
+        Group groupGUESTS = (Group) getEntityManager().createQuery("SELECT g FROM Group g WHERE g.groupName=:guests")
+                .setParameter("guests", "GUESTS")
+                .getSingleResult();
+        if(groupGUESTS==null){
+            this.create(new Group("GUESTS"));
+            groupGUESTS = (Group) getEntityManager().createQuery("SELECT g FROM Group g WHERE g.groupName=:guests")
+                .setParameter("guests", "GUESTS")
+                .getSingleResult();
+        }
+        return groupGUESTS;
+    }
+
+    public void removeGroupById(Long groupId) {
+        Group group = this.find(groupId);
+        if(group != null){
+            this.remove(group);
+        }
+    }
     
 }

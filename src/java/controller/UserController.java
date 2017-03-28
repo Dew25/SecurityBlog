@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.ArticleFacade;
-import session.AuthBean;
+import security.AuthBean;
 import session.CommentFacade;
 
 /**
@@ -49,8 +49,9 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        
-        if("/addNewUser".equals(request.getServletPath())){
+        if("/newuser".equals(request.getServletPath())){
+            request.getServletContext().getRequestDispatcher("/authForm/registration.jsp").forward(request, response);
+        }else if("/addNewUser".equals(request.getServletPath())){
             String name =request.getParameter("name");
             String surname =request.getParameter("surname");
             String phone =request.getParameter("phone");
@@ -75,11 +76,13 @@ public class UserController extends HttpServlet {
                     if("/addComment".equals(request.getServletPath())){
                         String commentTitle=(String) request.getParameter("comment_title");
                         String commentText=(String) request.getParameter("comment_text");
-                        String article_id = (String) request.getParameter("article_id");
-                        Article article = articleFacade.find(new Long(article_id));
-                        Comment newComment = new Comment(regUser.getLogin(), commentTitle, commentText, new Date());
-                        article.getComments().add(newComment);
-                        articleFacade.edit(article);
+                        if(commentTitle!=null && !"".equals(commentTitle)){
+                           String article_id = (String) request.getParameter("article_id");
+                            Article article = articleFacade.find(new Long(article_id));
+                            Comment newComment = new Comment(regUser.getLogin(), commentTitle, commentText, new Date());
+                            article.getComments().add(newComment);
+                            articleFacade.edit(article); 
+                        }
                     }
                     String articleId = (String) request.getParameter("article_id");
                     if(articleId != null){
@@ -134,13 +137,7 @@ public class UserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        if("/newuser".equals(request.getServletPath())){
-            request.getServletContext().getRequestDispatcher("/authForm/registration.jsp").forward(request, response);
-        }else{
             processRequest(request, response);
-        }
     }
 
     /**
