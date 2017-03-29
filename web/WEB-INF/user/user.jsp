@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="../../resourses/css/index.css" rel="stylesheet">
+        <link href="${pageContext.servletContext.contextPath}/css/user.css" rel="stylesheet" type="text/css">
         <title>Страница зарегистрированного пользователя</title>
     </head>
     <body>

@@ -7,7 +7,7 @@
         <title>Добро пожаловать</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="resourses/css/index.css">
+        <link href="${pageContext.servletContext.contextPath}/css/index.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div>Добро пожаловать в блог</div>

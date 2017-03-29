@@ -50,6 +50,7 @@ public class AdminController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         String userPath=request.getServletPath();
+        
         User regUser = authBean.getSessionUser(request);          
             if( regUser != null){
                 if(authBean.accessOn(regUser,"ADMINS")){
@@ -103,6 +104,13 @@ public class AdminController extends HttpServlet {
                     }else if("/deleteGroup".equals(userPath)){
                         Boolean notDeleteGUESTS = true;
                         String groupId = request.getParameter("deleteGroup");
+                        Group deleteGroup = groupFacade.find(new Long(groupId));
+                        if("ADMINS".equals(deleteGroup.getGroupName())){
+                            request.setAttribute("users",userFacade.findAll());
+                            request.setAttribute("groups", groupFacade.findAll());
+                            request.getServletContext().getRequestDispatcher("/WEB-INF/admin/admin.jsp").forward(request, response);
+                            return;
+                        }
                         Group groupGUESTS = groupFacade.getGroupGUESTS();
                         //Находим пользователей, которые в указанной группе
                         List<User> usersInGroup = userFacade.findUsersInGroupByGroupId(new Long(groupId));
@@ -115,7 +123,7 @@ public class AdminController extends HttpServlet {
                                 // и имя найденной группы не "GUESTS",
                                 // удаляем найденную группу у этого пользователя 
                                 // и добавляем ему группу "GUESTS"
-                                if(groupId.equals(group.getId().toString()) && !"GROUPS".equals(group.getGroupName())){
+                                if(groupId.equals(group.getId().toString()) && !"GUESTS".equals(group.getGroupName())){
                                     if(user.getGroups().remove(group)){
                                         userFacade.edit(user);
                                         LOGGER.log(Level.INFO, "Пользователь {0} удален из группы  {1}", 

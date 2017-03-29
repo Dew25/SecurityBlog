@@ -10,6 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/css/admin.css">
         <title>Страница администратора</title>
     </head>
     <body>

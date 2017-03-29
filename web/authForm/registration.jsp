@@ -9,6 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="${pageContext.servletContext.contextPath}/css/registration.css" rel="stylesheet" type="text/css">
         <title>Регистрация</title>
     </head>
     <body>

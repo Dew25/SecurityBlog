@@ -44,8 +44,9 @@ public class FileUploadController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
-        final String path = getServletContext().getRealPath("/") + "data";
+        // Укажите в переменной path путь к каталогу, где будут храниться загруженные файлы (изображения)
+        // Не забудьте дать права этой директории на запись чтение и исполнение (chmod 777)
+        final String path = "/usr/local/files/SecurityBlog";
         final Part filePart = request.getPart("file");
         final String fileName = (String) getFileName(filePart);
 
@@ -64,10 +65,10 @@ public class FileUploadController extends HttpServlet {
                 out.write(bytes, 0, read);
             }
            
-            LOGGER.log(Level.INFO, "File{0}being uploaded to {1}", 
+            LOGGER.log(Level.INFO, "Файл {0} начал загружаться в {1}", 
                     new Object[]{fileName, path});
         } catch (FileNotFoundException fne) {
-            LOGGER.log(Level.SEVERE, "Problems during file upload. Error: {0}", 
+            LOGGER.log(Level.SEVERE, "Проблемы загрузки файла. Error: {0}", 
                     new Object[]{fne.getMessage()});
         } finally {
             if (out != null) {
@@ -79,6 +80,7 @@ public class FileUploadController extends HttpServlet {
             
         }
         if(!"".equals(fileName)){
+            request.setAttribute("linkImg", path+File.separator+fileName);
             request.setAttribute("info", "Файл загружен.<br>Ссылка для копирования: "+path+File.separator+fileName);
         }else{
             request.setAttribute("info", "Не выбран файл для загрузки!");

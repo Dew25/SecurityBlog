@@ -48,15 +48,19 @@ public class GroupFacade extends AbstractFacade<Group> {
     }
 
     public Group getGroupGUESTS() {
-        Group groupGUESTS = (Group) getEntityManager().createQuery("SELECT g FROM Group g WHERE g.groupName=:guests")
+        Group groupGUESTS = null;
+        try {
+            groupGUESTS = (Group) getEntityManager().createQuery("SELECT g FROM Group g WHERE g.groupName=:guests")
                 .setParameter("guests", "GUESTS")
                 .getSingleResult();
-        if(groupGUESTS==null){
-            this.create(new Group("GUESTS"));
+        } catch (Exception e) {
+            groupGUESTS = new Group("GUESTS");
+            getEntityManager().persist(groupGUESTS);
             groupGUESTS = (Group) getEntityManager().createQuery("SELECT g FROM Group g WHERE g.groupName=:guests")
                 .setParameter("guests", "GUESTS")
                 .getSingleResult();
         }
+        
         return groupGUESTS;
     }
 
