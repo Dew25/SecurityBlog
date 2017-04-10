@@ -18,8 +18,8 @@ import session.ArticleFacade;
  *
  * @author Melnikov
  */
-@WebServlet(name = "GuestController",loadOnStartup = 1, urlPatterns = {"/"})
-public class GuestController extends HttpServlet {
+@WebServlet(name = "IndexController",loadOnStartup = 1, urlPatterns = {"/"})
+public class IndexController extends HttpServlet {
     @EJB ArticleFacade articleFacade;    
 
     /**

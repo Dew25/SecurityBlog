@@ -135,7 +135,7 @@ public class AdminController extends HttpServlet {
                                     if(user.getGroups().add(groupGUESTS)){
                                         userFacade.edit(user);
                                         LOGGER.log(Level.INFO, "Пользователю {0} добавлена группа  {1}", 
-                                                 new Object[]{user,group});
+                                                 new Object[]{user,groupGUESTS});
                                     }else{
                                         LOGGER.log(Level.INFO, "Пользователя {0} не удалось добавить в группу  {1}", 
                                                  new Object[]{user,group});

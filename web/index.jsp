@@ -1,15 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>          
-    <head>
-        <title>Добро пожаловать</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="${pageContext.servletContext.contextPath}/css/index.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
+    <div id="main">
         <div>Добро пожаловать в блог</div>
         <p></p>
         <p>Для начала работы необходимо 
@@ -24,19 +14,19 @@
         <br>
         <a href="user">Перейти на защищенную страничку зарегистрированного пользователя</a>
         <p>В блоге опубликовано:</p>
-        <table class="tab-article">
+        <section>
         <c:forEach var="article" items="${articles}">
-            <tr class="tr-article">${article.title}<td class="td-article"></td>
-                <td class="td-article"></td>
-            </tr>
-            <tr>
-                <td class="td-article">Автор: ${article.userLogin}</td>
-                <td class="td-article">Дата публикации: ${article.date}</td>
-            </tr>
-            <tr>
-                <td class="td-article" colspan="2">${fn:substring(article.article,0,300)} ...<a href="user?article_id=${article.id}">смотреть все</a></td>
-            </tr>
+            <article>
+                <h1>${article.title}</h1>
+                <div class="text-article">
+                    ${fn:substring(article.article,0,300)} ...
+                </div>
+                <div class="fotter-article">
+                    <span class="read"><a href="user?article_id=${article.id}">
+                            Читать...</a></span>
+                    <span class="date-article">Дата статьи: ${article.date}</span>
+                </div>
+            </article>
         </c:forEach>
-        </table>
-    </body>
-</html>
+    </section>
+    </div>

@@ -9,17 +9,32 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${pageContext.servletContext.contextPath}/css/login.css" rel="stylesheet" type="text/css">
-        <title>JSP Page</title>
+        <style>
+            <%@include file="../resource/css/login.css" %>
+        </style>
+        <!--<link href="${pageContext.servletContext.contextPath}/css/login.css" rel="stylesheet" type="text/css">-->
+        <title>Авторизация</title>
     </head>
     <body>
         <h1>Авторизуйтесь!</h1>
         <p>${info}</p>
         <form action="login" method="POST">
-            <p>Логин: <input type="text" name="login" placeholder="admin"></p>
-            <p>Пароль: <input type="password" name="password" placeholder="12345"></p>
-            <p><input type="submit" name="submit" value="Авторизоваться"></p>
-            <input type="hidden" value="${path}" name="path">
+            <div class="container">
+              <label><b>Username</b></label>
+              <input type="text" placeholder="Enter Username" name="login" required>
+
+              <label><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" required>
+              <input type="hidden" name="path">
+
+              <button type="submit">Login</button>
+              <input type="checkbox" checked="checked"> Remember me
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" class="cancelbtn">Cancel</button>
+              <span class="psw">Forgot <a href="#">password?</a></span>
+            </div>
         </form>
     </body>
 </html>

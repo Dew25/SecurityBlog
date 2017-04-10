@@ -1,21 +1,14 @@
-<%-- 
-    Document   : user
-    Created on : 02.03.2017, 22:07:24
-    Author     : jvm
---%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link href="${pageContext.servletContext.contextPath}/css/user.css" rel="stylesheet" type="text/css">
-        <title>Страница зарегистрированного пользователя</title>
-    </head>
-    <body>
+
         <h1>Привет, ${username}!</h1>
         <a href="logout">logout</a><br>
+        <br>
+        Заголовки опубликованных статей
+        <br>
+        <c:forEach var="article" items="${articles}" varStatus="status">
+            <p><a href="user?article_id=${article.id}">${status.index+1}. ${article.title}</a> <a href="deletearticle?id=${article.id}">Удалить</a></p>
+        </c:forEach>
         <table class="tab-article">
         
             <tr class="tr-article">${article.title}<td class="td-article"></td>
@@ -68,5 +61,4 @@
                 </tr>
             </table>
         </form>
-    </body>
-</html>
+

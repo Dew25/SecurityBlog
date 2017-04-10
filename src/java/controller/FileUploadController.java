@@ -46,7 +46,7 @@ public class FileUploadController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         // Укажите в переменной path путь к каталогу, где будут храниться загруженные файлы (изображения)
         // Не забудьте дать права этой директории на запись чтение и исполнение (chmod 777)
-        final String path = "/usr/local/files/SecurityBlog";
+        final String path = "C:\\images";
         final Part filePart = request.getPart("file");
         final String fileName = (String) getFileName(filePart);
 

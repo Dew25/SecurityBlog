@@ -1,0 +1,27 @@
+<%-- any content can be specified here e.g.: --%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            <%@include file="../../resource/css/style.css" %>
+            <%@include file="../../resource/css/index.css" %>
+        </style>
+        <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Мой блог</title>
+    </head>
+    <body>
+        <header>
+            <a href="/"><img alt="Логотип" id="top-image" src="#"/></a>
+            <div id="user-panel">
+                <a href="index.jsp"><img alt="Иконка юзера" scr="fileServlet/computer.jpg"/></a>
+                <a href="user">[Панель для юзера]</a>
+                <a href="admin">[Панель для админа]</a>
+            </div>
+        </header>

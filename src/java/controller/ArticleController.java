@@ -42,7 +42,7 @@ public class ArticleController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF8");
+
         String userPath=request.getServletPath();
         HttpSession session = request.getSession(false);
         if(session != null){
