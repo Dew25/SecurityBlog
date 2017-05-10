@@ -5,23 +5,40 @@
  */
 package controller;
 
+import entyty.Article;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jboss.weld.context.http.HttpRequestContext;
 import session.ArticleFacade;
 
 /**
  *
  * @author Melnikov
  */
-@WebServlet(name = "IndexController",loadOnStartup = 1, urlPatterns = {"/"})
+@WebServlet(name = "IndexController",loadOnStartup = 1, urlPatterns = {})
 public class IndexController extends HttpServlet {
     @EJB ArticleFacade articleFacade;    
 
+    @Override
+    public void init() throws ServletException {
+        super.init(); 
+        List<Article> articles = null;
+        try {
+            articles = articleFacade.findAll();
+        } catch (Exception e) {
+            articles = new ArrayList<>();
+        }
+        
+        getServletContext().setAttribute("articles", articles);
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -34,12 +51,12 @@ public class IndexController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        String userPath=request.getServletPath();
-       if("/".equals(userPath)){
-           getServletContext().setAttribute("articles", articleFacade.findAll());  
-           response.sendRedirect("index.jsp");
-       }
+//        request.setCharacterEncoding("UTF-8");
+//        String userPath=request.getServletPath();
+//       if("/".equals(userPath)){
+//           getServletContext().setAttribute("articles", articleFacade.findAll());  
+//           response.sendRedirect("index.jsp");
+//       }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

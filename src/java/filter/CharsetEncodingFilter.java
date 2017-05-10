@@ -5,7 +5,10 @@
  */
 package filter;
 
+import entyty.Group;
+import entyty.User;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -13,6 +16,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -45,7 +50,23 @@ public class CharsetEncodingFilter implements Filter {
         if (contentType != null && contentType.startsWith(FILTERABLE_CONTENT_TYPE))
             request.setCharacterEncoding(encoding);
         chain.doFilter(request, response);
-       
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpSession session = httpRequest.getSession();
+       if(session != null){
+           User regUser = (User) session.getAttribute("regUser");
+           List<Group> groups = regUser.getGroups();
+           for (Group group : groups) {
+               if("ADMINS".equals(group.getGroupName())){
+                   httpRequest.setAttribute("role", "ADMIN");
+                   break;
+               }else  if("USERS".equals(group.getGroupName())){
+                   httpRequest.setAttribute("role", "USER");
+                   break;
+               }else{
+                   httpRequest.setAttribute("role", "GUEST");
+               } 
+           }
+       }
     }
 
     /**

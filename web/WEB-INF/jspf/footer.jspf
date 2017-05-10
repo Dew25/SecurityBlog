@@ -4,6 +4,5 @@
                 <span>Тестовое приложение JAVA EE</span>
             </div>
         </footer>
-        <script type="text/javascript"><%@include file="../../resource/js/index.js"%></script>
     </body>
 </html>

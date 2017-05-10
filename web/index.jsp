@@ -1,5 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
     <div id="main">
+        
         <div>Добро пожаловать в блог</div>
         <p></p>
         <p>Для начала работы необходимо 
@@ -14,6 +15,16 @@
         <br>
         <a href="user">Перейти на защищенную страничку зарегистрированного пользователя</a>
         <p>В блоге опубликовано:</p>
+        <aside class="leftAside">
+            <h2>Темы статей</h2>
+            <ul>
+                <li><a href="#">Тема 1</a></li>
+                <li><a href="#">Тема 2</a></li>
+                <li><a href="#">Тема 3</a></li>
+                <li><a href="#">Тема 3</a></li>
+
+            </ul>
+        </aside>
         <section>
         <c:forEach var="article" items="${articles}">
             <article>

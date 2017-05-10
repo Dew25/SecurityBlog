@@ -22,7 +22,7 @@ import session.UserFacade;
  *
  * @author jvm
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
+@WebServlet(name = "LoginController", urlPatterns = {"/login","/loginForm"})
 public class LoginController extends HttpServlet {
 
     @EJB UserFacade regUserFacade;
@@ -72,6 +72,11 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if("/loginForm".equals(request.getServletPath())){
+            String path = request.getParameter("path");
+            request.setAttribute("path", path);
+            request.getServletContext().getRequestDispatcher("/authForm/login.jsp").forward(request, response);
+        }
        
     }
 }

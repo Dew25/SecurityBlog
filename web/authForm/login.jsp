@@ -1,21 +1,6 @@
-<%-- 
-    Document   : login
-    Created on : 21.02.2017, 16:52:42
-    Author     : jvm
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <style>
-            <%@include file="../resource/css/login.css" %>
-        </style>
-        <!--<link href="${pageContext.servletContext.contextPath}/css/login.css" rel="stylesheet" type="text/css">-->
-        <title>Авторизация</title>
-    </head>
-    <body>
+    <div class="login">
         <h1>Авторизуйтесь!</h1>
         <p>${info}</p>
         <form action="login" method="POST">
@@ -36,5 +21,5 @@
               <span class="psw">Forgot <a href="#">password?</a></span>
             </div>
         </form>
-    </body>
-</html>
+    </div>
+
