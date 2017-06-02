@@ -1,4 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/jspf/header.jspf" %>
     <div id="main">
         <div>Добро пожаловать в блог</div>
         <p></p>
@@ -30,3 +31,4 @@
         </c:forEach>
     </section>
     </div>
+<%@include file="WEB-INF/jspf/footer.jspf" %>

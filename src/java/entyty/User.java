@@ -47,6 +47,7 @@ public class User extends Person{
     private List<Group> groups;
     
 
+
     public User() {
     }
     
@@ -101,6 +102,7 @@ public class User extends Person{
     }
 
     public void setGroups(List<Group> groups) {
+        
         this.groups = groups;
     }
 

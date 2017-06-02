@@ -2,6 +2,23 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/WEB-INF/admin/newArticle.jsp</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/authForm/registration.jsp</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/controller/IndexController.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/filter/CharsetEncodingFilter.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/filter/RegUserFilter.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/entyty/User.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/index.jsp</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/resource/css/style.css</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/authForm/login.jsp</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/WEB-INF/user/user.jsp</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/WEB-INF/jspf/header.jspf</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/util/Role.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/resource/css/registration.css</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/src/java/controller/UserController.java</file>
+            <file>file:/C:/Users/melnikov/Documents/NetBeansProjects/SecurityBlog/web/WEB-INF/admin/admin.jsp</file>
+        </group>
     </open-files>
 </project-private>

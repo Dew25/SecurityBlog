@@ -1,6 +1,5 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@include file="/WEB-INF/jspf/header.jspf" %>
         <h1>Привет, ${username}, Вы зашли на защищенный ресурс!</h1>
         <a href="logout">logout</a><br>
         <a href="newuser">Новый пользователь</a>
@@ -50,3 +49,4 @@
             <input type="submit" name="remove" value="Удалить пользователя из группы">
         </form>
 
+        <%@include file="/WEB-INF/jspf/footer.jspf" %>

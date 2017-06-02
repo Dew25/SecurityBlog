@@ -77,11 +77,13 @@ public class UserController extends HttpServlet {
                         String commentTitle=(String) request.getParameter("comment_title");
                         String commentText=(String) request.getParameter("comment_text");
                         if(commentTitle!=null && !"".equals(commentTitle)){
-                           String article_id = (String) request.getParameter("article_id");
-                            Article article = articleFacade.find(new Long(article_id));
-                            Comment newComment = new Comment(regUser.getLogin(), commentTitle, commentText, new Date());
-                            article.getComments().add(newComment);
-                            articleFacade.edit(article); 
+                            String article_id = (String) request.getParameter("article_id");
+                            if(article_id != null && "".equals(article_id)){
+                                Article article = articleFacade.find(new Long(article_id));
+                                Comment newComment = new Comment(regUser.getLogin(), commentTitle, commentText, new Date());
+                                article.getComments().add(newComment);
+                                articleFacade.edit(article);
+                            }
                         }
                     }
                     String articleId = (String) request.getParameter("article_id");

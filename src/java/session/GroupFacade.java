@@ -70,5 +70,15 @@ public class GroupFacade extends AbstractFacade<Group> {
             this.remove(group);
         }
     }
-    
+    public Group getGroupByName(String name){
+       try{
+            Group group = (Group) getEntityManager().createQuery("SELECT g FROM Group g WHERE g.groupName=:name")
+                    .setParameter("name", name)
+                    .getSingleResult();
+            return group;
+       }catch(Exception e){
+            return null;
+       }
+    }
+ 
 }

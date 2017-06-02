@@ -1,25 +1,10 @@
-<%-- 
-    Document   : login
-    Created on : 21.02.2017, 16:52:42
-    Author     : jvm
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <style>
-            <%@include file="../resource/css/login.css" %>
-        </style>
-        <!--<link href="${pageContext.servletContext.contextPath}/css/login.css" rel="stylesheet" type="text/css">-->
-        <title>Авторизация</title>
-    </head>
-    <body>
-        <h1>Авторизуйтесь!</h1>
-        <p>${info}</p>
+<%@include file="/WEB-INF/jspf/header.jspf" %>
+        
         <form action="login" method="POST">
-            <div class="container">
+            <div class="loginWrapper">
+              <h1>Авторизуйтесь!</h1>
+              <p>${info}</p>
               <label><b>Username</b></label>
               <input type="text" placeholder="Enter Username" name="login" required>
 
@@ -38,3 +23,4 @@
         </form>
     </body>
 </html>
+<%@include file="/WEB-INF/jspf/footer.jspf" %>

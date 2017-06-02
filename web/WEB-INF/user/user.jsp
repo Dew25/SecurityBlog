@@ -1,9 +1,11 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@include file="/WEB-INF/jspf/header.jspf" %>
         <h1>Привет, ${username}!</h1>
         <a href="logout">logout</a><br>
         <br>
+       
+        
         Заголовки опубликованных статей
         <br>
         <c:forEach var="article" items="${articles}" varStatus="status">
@@ -61,4 +63,4 @@
                 </tr>
             </table>
         </form>
-
+<%@include file="/WEB-INF/jspf/footer.jspf" %>

@@ -50,7 +50,6 @@ public class LoginController extends HttpServlet {
                 HttpSession session=request.getSession(true);
                 session.setAttribute("regUser", regUser);
                 response.sendRedirect(path);
-                return;
             }else{
                 request.setAttribute("info", "Неправильный логин или пароль!<br><a href=\"newuser\">зарегистрироваться</a>");
                 request.setAttribute("path", path);
